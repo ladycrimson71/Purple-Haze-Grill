@@ -14,7 +14,9 @@
       min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       color: #f7d9ff;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       background:
         radial-gradient(circle at 20% 20%, rgba(138,43,226,0.5), transparent 40%),
         radial-gradient(circle at 80% 30%, rgba(186,85,211,0.4), transparent 40%),
@@ -100,7 +102,8 @@
     .wrapper {
       width: 100%;
       max-width: 1420px;
-      height: calc(100vh - 28px);
+      min-height: calc(100vh - 28px);
+      height: auto;
       background:
         linear-gradient(135deg, rgba(20, 10, 31, 0.96), rgba(45, 19, 59, 0.94));
       border: 1px solid rgba(224, 170, 255, 0.42);
@@ -111,7 +114,7 @@
         inset 0 0 25px rgba(255, 198, 255, 0.06);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       z-index: 10;
       margin: 14px auto;
@@ -190,7 +193,7 @@
       grid-template-columns: 2.2fr 1fr;
       gap: 18px;
       padding: 8px 22px 22px;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       z-index: 2;
     }
@@ -625,11 +628,28 @@
     @media (max-width: 860px) {
       .main {
         grid-template-columns: 1fr;
+        overflow: visible;
+      }
+
+      .menu-column,
+      .order-column {
+        overflow: visible;
+      }
+
+      .menu-items,
+      .order-items {
+        overflow: visible;
+        max-height: none;
       }
 
       .wrapper {
-        height: auto;
         min-height: calc(100vh - 28px);
+        height: auto;
+        overflow: visible;
+      }
+
+      .order-items-box {
+        overflow: visible;
       }
     }
 
