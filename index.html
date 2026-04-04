@@ -5,58 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Purple Haze Grill Menu</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% {
-        opacity: 0.65;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.03);
-      }
-    }
-
-    @keyframes floatSmoke {
-      0% {
-        transform: translateY(0px) translateX(0px) scale(1);
-      }
-      50% {
-        transform: translateY(-12px) translateX(6px) scale(1.05);
-      }
-      100% {
-        transform: translateY(0px) translateX(0px) scale(1);
-      }
-    }
-
-    @keyframes sparkle {
-      0%, 100% {
-        opacity: 0;
-        transform: scale(0.3);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       color: #f7d9ff;
-      background:
-        radial-gradient(circle at top, rgba(118, 39, 157, 0.9) 0%, rgba(31, 10, 49, 0.96) 38%, rgba(10, 6, 18, 1) 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 14px;
       overflow: hidden;
-      position: relative;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(138,43,226,0.5), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(186,85,211,0.4), transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(75,0,130,0.5), transparent 60%),
+        linear-gradient(135deg, #05000a, #120022);
+    }
+
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .stars::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.25;
+      animation: moveStars 60s linear infinite;
+    }
+
+    @keyframes moveStars {
+      from { transform: translate(0,0); }
+      to { transform: translate(-200px,-200px); }
+    }
+
+    @keyframes glowPulse {
+      0%,100% { opacity:0.65; transform:scale(1); }
+      50% { opacity:1; transform:scale(1.03); }
+    }
+
+    @keyframes floatSmoke {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes sparkle {
+      0%,100% { opacity:0; transform:scale(0.3); }
+      50% { opacity:1; transform:scale(1); }
     }
 
     .bg-smoke,
@@ -111,6 +114,7 @@
       overflow: hidden;
       position: relative;
       z-index: 10;
+      margin: 14px auto;
     }
 
     .wrapper::before {
@@ -258,47 +262,70 @@
 
     .menu-item {
       background:
-        linear-gradient(135deg, rgba(36, 14, 49, 0.88), rgba(63, 24, 83, 0.88));
+        linear-gradient(135deg, rgba(36, 14, 49, 0.9), rgba(63, 24, 83, 0.9));
       border: 1px solid rgba(217, 175, 255, 0.24);
-      border-radius: 12px;
-      padding: 14px;
+      border-radius: 14px;
+      padding: 15px;
       display: flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       align-items: center;
       transition: 0.25s ease;
-      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+      box-shadow:
+        inset 0 0 10px rgba(255, 255, 255, 0.02),
+        0 0 0 rgba(168, 85, 247, 0);
     }
 
     .menu-item:hover {
-      transform: translateX(4px);
-      border-color: rgba(255, 211, 132, 0.45);
-      box-shadow: 0 0 16px rgba(165, 90, 255, 0.16);
+      transform: translateX(6px) scale(1.01);
+      border-color: rgba(255, 211, 132, 0.55);
+      box-shadow:
+        0 0 18px rgba(165, 90, 255, 0.22),
+        0 0 35px rgba(168, 85, 247, 0.22),
+        inset 0 0 10px rgba(255, 255, 255, 0.03);
     }
 
     .menu-item-content {
       flex: 1;
+      min-width: 0;
+    }
+
+    .menu-item-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
     }
 
     .menu-item-name {
       color: #ffd78d;
       font-size: 17px;
       font-weight: bold;
-      margin-bottom: 4px;
+    }
+
+    .menu-item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .menu-item-badge {
-      display: inline-block;
-      margin-left: 7px;
-      padding: 3px 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 9px;
       border-radius: 999px;
       font-size: 10px;
       letter-spacing: 0.6px;
       text-transform: uppercase;
-      background: rgba(185, 116, 255, 0.18);
-      border: 1px solid rgba(222, 184, 255, 0.25);
-      color: #f4cbff;
-      vertical-align: middle;
+      background: rgba(185, 116, 255, 0.14);
+      border: 1px solid rgba(222, 184, 255, 0.32);
+      color: #f7dbff;
+      box-shadow:
+        0 0 10px rgba(186, 85, 211, 0.18),
+        inset 0 0 8px rgba(255, 255, 255, 0.04);
     }
 
     .menu-item-price {
@@ -313,12 +340,41 @@
       line-height: 1.45;
     }
 
+    .menu-item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      min-width: 110px;
+    }
+
+    .qty-input {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(214, 162, 255, 0.38);
+      background: rgba(12, 8, 21, 0.92);
+      color: #fff;
+      text-align: center;
+      outline: none;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: inset 0 0 8px rgba(196, 106, 255, 0.12);
+    }
+
+    .qty-input:focus {
+      border-color: #f3c46f;
+      box-shadow:
+        0 0 12px rgba(243, 196, 111, 0.22),
+        inset 0 0 8px rgba(196, 106, 255, 0.12);
+    }
+
     .add-btn {
       background: linear-gradient(135deg, #f3c46f, #e6a93f);
       color: #2b102f;
       border: none;
       border-radius: 8px;
-      padding: 8px 14px;
+      padding: 9px 14px;
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
@@ -330,7 +386,7 @@
 
     .add-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 0 14px rgba(243, 196, 111, 0.28);
+      box-shadow: 0 0 18px rgba(243, 196, 111, 0.32);
     }
 
     .order-header {
@@ -517,6 +573,55 @@
       background: rgba(255, 211, 132, 0.18);
     }
 
+    .accessibility-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 213, 134, 0.4);
+      background: linear-gradient(135deg, #7d2cb4, #b45ef7);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 0 12px rgba(180, 94, 247, 0.22);
+    }
+
+    .accessibility-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(180, 94, 247, 0.34);
+    }
+
+    .header-title { font-size: 42px !important; }
+    .header-subtitle { font-size: 18px !important; }
+    .menu-tab { font-size: 16px !important; padding: 11px 18px !important; }
+    .menu-item-name { font-size: 20px !important; }
+    .menu-item-price { font-size: 15px !important; }
+    .menu-item-desc { font-size: 14px !important; }
+    .add-btn { font-size: 14px !important; padding: 10px 16px !important; }
+    .order-header { font-size: 18px !important; }
+    .summary-row { font-size: 15px !important; }
+
+    .accessibility-large .header-title { font-size: 50px !important; }
+    .accessibility-large .header-subtitle { font-size: 20px !important; }
+    .accessibility-large .header-customer { font-size: 16px !important; }
+    .accessibility-large .header-customer input { font-size: 16px !important; }
+
+    .accessibility-large .menu-tab { font-size: 17px !important; }
+    .accessibility-large .menu-item-name { font-size: 22px !important; }
+    .accessibility-large .menu-item-price { font-size: 16px !important; }
+    .accessibility-large .menu-item-desc { font-size: 16px !important; }
+    .accessibility-large .menu-item-badge { font-size: 11px !important; }
+    .accessibility-large .qty-input { font-size: 15px !important; }
+
+    .accessibility-large .add-btn { font-size: 14px !important; }
+    .accessibility-large .order-header { font-size: 20px !important; }
+    .accessibility-large .order-item-name { font-size: 15px !important; }
+    .accessibility-large .order-item-price { font-size: 13px !important; }
+    .accessibility-large .summary-row { font-size: 16px !important; }
+    .accessibility-large .summary-row:last-child { font-size: 18px !important; }
+    .accessibility-large .order-note { font-size: 13px !important; }
+    .accessibility-large .btn { font-size: 14px !important; }
+
     @media (max-width: 860px) {
       .main {
         grid-template-columns: 1fr;
@@ -530,12 +635,16 @@
 
     @media (max-width: 600px) {
       .header-title {
-        font-size: 24px;
+        font-size: 24px !important;
       }
 
       .menu-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+      }
+
+      .menu-item-actions {
+        width: 100%;
       }
 
       .add-btn {
@@ -545,6 +654,7 @@
   </style>
 </head>
 <body>
+  <div class="stars"></div>
   <div class="bg-smoke"></div>
   <div class="bg-smoke-2"></div>
 
@@ -555,6 +665,12 @@
       <div class="header-customer">
         <span>Customer Name:</span>
         <input type="text" id="customerName" placeholder="Enter your name" value="Guest" />
+      </div>
+
+      <div style="margin-top: 12px;">
+        <button class="accessibility-btn" onclick="toggleAccessibilityMode()">
+          👓 Toggle Large Text
+        </button>
       </div>
     </div>
 
@@ -609,22 +725,22 @@
           id: "panama-red-pasta",
           name: "Panama Red Pasta",
           price: 300.00,
-          badge: "Food",
-          desc: "Chicken parm + pasta. Effect: Restores Hunger."
+          badges: ["Food"],
+          desc: "The only red that gets you smiling."
         },
         {
           id: "cherry-blossom-bites",
           name: "Cherry Blossom Bites",
           price: 300.00,
-          badge: "Food",
-          desc: "Japanese rice balls. Effect: Restores Hunger."
+          badges: ["Food"],
+          desc: "Sweet, soft, & lowkey addictive."
         },
         {
           id: "dirty-girl",
           name: "Dirty Girl",
           price: 300.00,
-          badge: "Dessert",
-          desc: "Sweet signature dessert. Effect: Restores Hunger."
+          badges: ["Dessert", "Food"],
+          desc: "She is toxic. Eat her anyway."
         }
       ],
       drinks: [
@@ -632,22 +748,22 @@
           id: "red-flag-refresher",
           name: "Red Flag Refresher",
           price: 500.00,
-          badge: "Combat Ready",
-          desc: "Effect: Reinforces Armor, Enhances Speed, Restores Hunger, & Restores Thirst."
+          badges: ["Combat Ready", "Shield", "Speed", "Food", "Water"],
+          desc: "Watch out for the warning signs."
         },
         {
           id: "northern-lights-cocktail",
           name: "Northern Lights Cocktail",
           price: 300.00,
-          badge: "Drink",
-          desc: "Signature cocktail. Effect: Restores Thirst."
+          badges: ["Drink"],
+          desc: "Do NOT mix with exes."
         },
         {
           id: "moonlit-mojito-milkshake",
           name: "Moonlit Mojito Milkshake",
           price: 500.00,
-          badge: "Special Drink",
-          desc: "Effect: Increases Stamina, Restores Hunger, Restores Thirst, & Restores Health."
+          badges: ["Stamina", "Health", "Food", "Water"],
+          desc: "Lingers longer than your situationship."
         }
       ],
       specials: [
@@ -655,8 +771,8 @@
           id: "mystery-box",
           name: "Mystery Box",
           price: 10000.00,
-          badge: "Animated Toy",
-          desc: "Purple Haze specialty item."
+          badges: ["Animated Toy"],
+          desc: "What’s inside? A rare toy, an animated surprise… or absolutely nothing. Only fortune favors the bold."
         }
       ]
     };
@@ -694,6 +810,36 @@
       displayMenu();
     }
 
+    function toggleAccessibilityMode() {
+      document.body.classList.toggle("accessibility-large");
+    }
+
+    function getQuantityInputValue(itemId) {
+      const input = document.getElementById(`qty-${itemId}`);
+      if (!input) return 1;
+
+      const value = parseInt(input.value, 10);
+
+      if (isNaN(value) || value < 1) return 1;
+      if (value > 999) return 999;
+
+      return value;
+    }
+
+    function resetQuantityInput(itemId) {
+      const input = document.getElementById(`qty-${itemId}`);
+      if (input) input.value = 1;
+    }
+
+    function renderBadges(badges) {
+      if (!badges || !badges.length) return "";
+      return `
+        <div class="menu-item-tags">
+          ${badges.map(tag => `<span class="menu-item-badge">${tag}</span>`).join("")}
+        </div>
+      `;
+    }
+
     function displayMenu() {
       const menuItems = document.getElementById("menuItems");
       const items = menuData[currentTab];
@@ -701,28 +847,44 @@
       menuItems.innerHTML = items.map(item => `
         <div class="menu-item">
           <div class="menu-item-content">
-            <div class="menu-item-name">
-              ${item.name}
-              ${item.badge ? `<span class="menu-item-badge">${item.badge}</span>` : ""}
+            <div class="menu-item-name-row">
+              <div class="menu-item-name">${item.name}</div>
             </div>
             <div class="menu-item-price">Price: $${formatPrice(item.price)}</div>
             <div class="menu-item-desc">${item.desc}</div>
+            ${renderBadges(item.badges)}
           </div>
-          <button class="add-btn" onclick="addToOrder('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price})">+ Add</button>
+
+          <div class="menu-item-actions">
+            <input
+              type="number"
+              min="1"
+              max="999"
+              value="1"
+              id="qty-${item.id}"
+              class="qty-input"
+              aria-label="Quantity for ${item.name}"
+            />
+            <button class="add-btn" onclick="addToOrder('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price})">
+              Add
+            </button>
+          </div>
         </div>
       `).join("");
     }
 
     function addToOrder(id, name, price) {
+      const qtyToAdd = getQuantityInputValue(id);
       const existing = order.find(item => item.id === id);
 
       if (existing) {
-        existing.qty++;
+        existing.qty += qtyToAdd;
       } else {
-        order.push({ id, name, price, qty: 1 });
+        order.push({ id, name, price, qty: qtyToAdd });
       }
 
       updateOrder();
+      resetQuantityInput(id);
     }
 
     function increaseQty(idx) {
@@ -776,6 +938,8 @@
     function clearOrder() {
       order = [];
       updateOrder();
+
+      Object.values(menuData).flat().forEach(item => resetQuantityInput(item.id));
     }
 
     function submitOrder() {
