@@ -2213,7 +2213,13 @@ Where horsepower meets happy hour 💜`
       clearOrder();
     }
 
-    displayMenu();
-  </script>
+  document.getElementById("customerName").addEventListener("input", updateOrderHeader);
+  document.getElementById("bartenderName").addEventListener("input", updateBartenderDisplay);
+
+  updateOrderHeader();
+  updateBartenderDisplay();
+  updateOrderMeta();
+  displayMenu();
+</script>
 </body>
 </html>
