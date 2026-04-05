@@ -949,7 +949,10 @@
   </div>
 
 <script>
-  const LOGGING_ENDPOINT = "https://YOUR-BACKEND-URL-HERE/api/order-log";
+const BACKEND_URL = "http://127.0.0.1:8787";
+const MAX_EMPLOYEE_DISCOUNT = 15;
+
+let pendingOwnerCode = "NoReturn22";
 
   const menuData = {
     food: [
@@ -1301,28 +1304,22 @@
     updateOrderMeta();
   }
 
-  async function sendOrderLog(payload) {
-    if (!LOGGING_ENDPOINT || LOGGING_ENDPOINT.includes("YOUR-BACKEND-URL-HERE")) {
-      console.log("Logging endpoint not set yet.", payload);
-      return { ok: false, skipped: true };
-    }
+async function sendOrderLog(payload) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/order-log`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
 
-    try {
-      const response = await fetch(LOGGING_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      return { ok: response.ok };
-    } catch (error) {
-      console.error("Order log failed:", error);
-      return { ok: false, error: true };
-    }
+    return { ok: response.ok };
+  } catch (error) {
+    console.error("Order log failed:", error);
+    return { ok: false, error: true };
   }
-
+}
   function clearOrder() {
     order = [];
     activeDiscount = { name: "", percent: 0 };
