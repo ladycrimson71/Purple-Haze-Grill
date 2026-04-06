@@ -174,27 +174,77 @@
   overflow: visible;
 }
 
-    .wrapper {
-      width: 100%;
-      max-width: 1420px;
-      min-height: calc(100vh - 28px);
-      background:
-        linear-gradient(135deg, rgba(20, 10, 31, 0.65), rgba(45, 19, 59, 0.6));
-      border: 1px solid rgba(224, 170, 255, 0.42);
-      border-radius: 18px;
-      box-shadow:
-        0 0 30px rgba(168, 85, 247, 0.28),
-        0 0 65px rgba(0, 0, 0, 0.72),
-        inset 0 0 25px rgba(255, 198, 255, 0.05);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 10;
-      margin: 14px auto;
-    }
+.twinkle-star {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: rgba(255, 245, 190, 1);
+  box-shadow:
+    0 0 6px rgba(255, 235, 150, 0.95),
+    0 0 14px rgba(255, 215, 120, 0.75),
+    0 0 24px rgba(255, 200, 90, 0.45);
+  animation: twinkleStarFade 1.8s ease-in-out forwards;
+}
 
+.twinkle-star::before,
+.twinkle-star::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgba(255, 240, 170, 0.9);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+}
+
+.twinkle-star::before {
+  width: 14px;
+  height: 1.3px;
+}
+
+.twinkle-star::after {
+  width: 1.3px;
+  height: 14px;
+}
+
+@keyframes twinkleStarFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1420px;
+  min-height: calc(100vh - 28px);
+  background:
+    linear-gradient(135deg, rgba(20, 10, 31, 0.38), rgba(45, 19, 59, 0.34));
+  border: 1px solid rgba(224, 170, 255, 0.38);
+  border-radius: 18px;
+  box-shadow:
+    0 0 24px rgba(168, 85, 247, 0.22),
+    0 0 55px rgba(0, 0, 0, 0.58),
+    inset 0 0 20px rgba(255, 198, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+  margin: 14px auto;
+}
     .wrapper::before {
       content: "";
       position: absolute;
@@ -1259,6 +1309,23 @@ function createConstellation() {
     }
   ];
 
+function createTwinkleStar(x = null, y = null) {
+  const star = document.createElement("div");
+  star.className = "twinkle-star";
+
+  const left = x !== null ? x : Math.random() * window.innerWidth;
+  const top = y !== null ? y : Math.random() * window.innerHeight;
+
+  star.style.left = `${left}px`;
+  star.style.top = `${top}px`;
+
+  document.body.appendChild(star);
+
+  setTimeout(() => {
+    star.remove();
+  }, 1800);
+}
+
   const picked = patterns[Math.floor(Math.random() * patterns.length)];
   const constellation = document.createElement("div");
   constellation.className = "constellation";
@@ -1275,6 +1342,9 @@ function createConstellation() {
 }
 
 setInterval(createConstellation, 700);
+setInterval(() => {
+  createTwinkleStar();
+}, 500);
 
 function switchTab(event, tab) {
   currentTab = tab;
@@ -1600,6 +1670,11 @@ Where horsepower meets happy hour 💜`
 
 document.getElementById("customerName").addEventListener("input", updateOrderHeader);
 document.getElementById("bartenderName").addEventListener("input", updateBartenderDisplay);
+document.addEventListener("click", (e) => {
+  createTwinkleStar(e.clientX, e.clientY);
+  createTwinkleStar(e.clientX + 16, e.clientY - 10);
+  createTwinkleStar(e.clientX - 14, e.clientY + 12);
+});
 
 updateOrderHeader();
 updateBartenderDisplay();
