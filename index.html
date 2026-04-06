@@ -158,7 +158,10 @@
   min-height: calc(100vh - 28px);
 
   background:
-    linear-gradient(135deg, rgba(20, 10, 31, 0.65), rgba(45, 19, 59, 0.6));
+    linear-gradient(135deg,
+      rgba(20, 10, 31, 0.35),
+      rgba(45, 19, 59, 0.30)
+    );
 
   border: 1px solid rgba(224, 170, 255, 0.42);
   border-radius: 18px;
@@ -168,8 +171,8 @@
     0 0 65px rgba(0, 0, 0, 0.72),
     inset 0 0 25px rgba(255, 198, 255, 0.05);
 
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   display: flex;
   flex-direction: column;
@@ -186,6 +189,14 @@
       border-radius: 14px;
       pointer-events: none;
     }
+
+.wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 60%);
+  pointer-events: none;
+}
 
     .header {
       padding: 18px 24px 10px;
