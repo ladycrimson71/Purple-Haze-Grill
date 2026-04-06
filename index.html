@@ -176,8 +176,8 @@
 
 .twinkle-star {
   position: fixed;
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
@@ -236,6 +236,24 @@
     constellationFloat 3.8s ease-in-out;
 }
 
+.constellation svg circle {
+  animation: constellationStarTwinkle 1.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes constellationStarTwinkle {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 245, 190, 0.4));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.28);
+    filter: drop-shadow(0 0 6px rgba(255, 245, 190, 0.95));
+  }
+}
+
 .wrapper {
   width: 100%;
   max-width: 1420px;
@@ -248,8 +266,8 @@
     0 0 18px rgba(168, 85, 247, 0.18),
     0 0 40px rgba(0, 0, 0, 0.55),
     inset 0 0 12px rgba(255, 198, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1381,6 +1399,25 @@ function createConstellation() {
 }
   ];
 
+const picked = patterns[Math.floor(Math.random() * patterns.length)];
+
+  if (window.lastConstellation === picked.name) return;
+  window.lastConstellation = picked.name;
+
+  const constellation = document.createElement("div");
+  constellation.className = "constellation";
+  constellation.innerHTML = picked.svg;
+
+  constellation.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  constellation.style.top = Math.random() * (window.innerHeight - 120) + "px";
+
+  document.body.appendChild(constellation);
+
+  setTimeout(() => {
+    constellation.remove();
+  }, 3800);
+}
+
 function createTwinkleStar(x = null, y = null) {
   const star = document.createElement("div");
   star.className = "twinkle-star";
@@ -1398,29 +1435,10 @@ function createTwinkleStar(x = null, y = null) {
   }, 1800);
 }
 
-  const picked = patterns[Math.floor(Math.random() * patterns.length)];
-
-// prevent same constellation twice in a row
-if (window.lastConstellation === picked.name) return;
-window.lastConstellation = picked.name;
-  const constellation = document.createElement("div");
-  constellation.className = "constellation";
-  constellation.innerHTML = picked.svg;
-
-  constellation.style.left = Math.random() * (window.innerWidth - 120) + "px";
-  constellation.style.top = Math.random() * (window.innerHeight - 120) + "px";
-
-  document.body.appendChild(constellation);
-
-  setTimeout(() => {
-    constellation.remove();
-  }, 3800);
-}
-
 setInterval(createConstellation, 800);
 setInterval(() => {
   createTwinkleStar();
-}, 700);
+}, 450);
 
 function switchTab(event, tab) {
   currentTab = tab;
