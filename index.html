@@ -1161,19 +1161,6 @@ function applyDiscount(name, percent) {
   if (currentTab === "discounts") displayMenu();
 }
 
-  const enteredCode = prompt(`Owner code required for discounts over ${MAX_EMPLOYEE_DISCOUNT}%.`);
-
-  if (enteredCode !== pendingOwnerCode) {
-    alert("Invalid owner code. Discount not applied.");
-    return;
-  }
-
-  activeDiscount = { name, percent };
-  updateOrder();
-  updateOrderMeta();
-  if (currentTab === "discounts") displayMenu();
-}
-
   function removeDiscount() {
     activeDiscount = { name: "", percent: 0 };
     updateOrder();
