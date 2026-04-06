@@ -949,10 +949,9 @@
   </div>
 
 <script>
-const BACKEND_URL = "https://purple-haze-worker.purple-haze.workers.dev";
+const BACKEND_URL = "http://127.0.0.1:8787";
 const MAX_EMPLOYEE_DISCOUNT = 15;
-
-let pendingOwnerCode = "NoReturn22";
+const OWNER_PASSWORD = "NoReturn22";
 
   const menuData = {
     food: [
@@ -1132,12 +1131,48 @@ let pendingOwnerCode = "NoReturn22";
     `;
   }
 
-  function applyDiscount(name, percent) {
+function applyDiscount(name, percent) {
+  if (percent <= MAX_EMPLOYEE_DISCOUNT) {
     activeDiscount = { name, percent };
     updateOrder();
     updateOrderMeta();
     if (currentTab === "discounts") displayMenu();
+    return;
   }
+
+  const enteredPassword = prompt(
+    `This discount is owner-locked. Enter owner password to apply ${percent}% off.`
+  );
+
+  if (!enteredPassword) {
+    alert("Owner password required. Discount not applied.");
+    return;
+  }
+
+  if (enteredPassword !== OWNER_PASSWORD) {
+    alert("Incorrect owner password. Discount not applied.");
+    return;
+  }
+
+  activeDiscount = { name, percent };
+  updateOrder();
+  updateOrderMeta();
+
+  if (currentTab === "discounts") displayMenu();
+}
+
+  const enteredCode = prompt(`Owner code required for discounts over ${MAX_EMPLOYEE_DISCOUNT}%.`);
+
+  if (enteredCode !== pendingOwnerCode) {
+    alert("Invalid owner code. Discount not applied.");
+    return;
+  }
+
+  activeDiscount = { name, percent };
+  updateOrder();
+  updateOrderMeta();
+  if (currentTab === "discounts") displayMenu();
+}
 
   function removeDiscount() {
     activeDiscount = { name: "", percent: 0 };
