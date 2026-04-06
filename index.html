@@ -225,6 +225,17 @@
   }
 }
 
+@keyframes constellationFloat {
+  0% { transform: translateY(10px); }
+  100% { transform: translateY(-10px); }
+}
+
+.constellation {
+  animation:
+    constellationFade 3.8s ease-in-out forwards,
+    constellationFloat 3.8s ease-in-out;
+}
+
 .wrapper {
   width: 100%;
   max-width: 1420px;
@@ -1305,7 +1316,7 @@ function createConstellation() {
     <circle cx="65" cy="30" r="2.8" fill="rgba(255,255,200,1)"/>
   </svg>
   `
-}
+},
     {
       name: "Libra",
       svg: `
@@ -1322,7 +1333,7 @@ function createConstellation() {
         <circle cx="98" cy="70" r="2.8" fill="rgba(255,255,200,1)"/>
       </svg>
       `
-    }
+        },
 {
   name: "Virgo",
   svg: `
@@ -1338,7 +1349,7 @@ function createConstellation() {
     <circle cx="85" cy="65" r="2.8" fill="rgba(255,255,200,1)"/>
   </svg>
   `
-}
+},
 {
   name: "Gemini",
   svg: `
@@ -1353,7 +1364,7 @@ function createConstellation() {
     <circle cx="80" cy="90" r="2.8" fill="rgba(255,255,200,1)"/>
   </svg>
   `
-}
+},
 {
   name: "Aries",
   svg: `
@@ -1388,6 +1399,10 @@ function createTwinkleStar(x = null, y = null) {
 }
 
   const picked = patterns[Math.floor(Math.random() * patterns.length)];
+
+// prevent same constellation twice in a row
+if (window.lastConstellation === picked.name) return;
+window.lastConstellation = picked.name;
   const constellation = document.createElement("div");
   constellation.className = "constellation";
   constellation.innerHTML = picked.svg;
